@@ -77,20 +77,8 @@ def ga(pop_size=100, elite_rate=0.2, mutate_prob=0.8, max_generations=10000):
     # pop.append([_password[i] for i in range(get_password_len())]) # Añadir la contraseña como último elemento de la población
     for i in range(max_generations):
         pop.sort(key=get_fitness)
-        print("\nGeneration:", i)
-        print("\t", chromosome_to_string(pop[0]), "\tfitness:", get_fitness(pop[0]))
+        print("\nGeneration:", i, "\t", chromosome_to_string(pop[0]), "\tfitness:", get_fitness(pop[0]))
         if get_fitness(pop[0]) == 0: return pop[0]
-
-        # # Selecciona la elite
-        # split = int(pop_size * elite_rate)
-        # elite, non_elite = pop[:split], pop[split:]
-
-        # # Muta entre los no elite
-        # non_elite = [non_elite[i] if random.random() < mutate_prob else mutate(non_elite[i]) for i in range(len(non_elite))]
-
-        # # Cruzar para generar descendencia. Se cruza por parejas en orden para cruzar individuos de similar fitness
-        # progeny = [crossover(pop[i], pop[i+1]) for i in range(0, len(pop), 2)]
-
         pop = next_generation(pop, elite_rate, mutate_prob)
     return False
 
@@ -98,17 +86,13 @@ def ga(pop_size=100, elite_rate=0.2, mutate_prob=0.8, max_generations=10000):
 def next_generation(pop, elite_rate, mutate_prob):
     """ Return the next generation """
     pop_size = len(pop)
-
     # Selecciona la elite
     split = int(pop_size * elite_rate)
     elite, non_elite = pop[:split], pop[split:]
-
     # Mutar entre los no elite
     non_elite = [non_elite[i] if random.random() < mutate_prob else mutate(non_elite[i]) for i in range(len(non_elite))]
-
     # Cruzar para generar descendencia. Se cruza por parejas en orden para cruzar individuos de similar fitness
     progeny = [crossover(pop[i], pop[i+1]) for i in range(0, pop_size, 2)]
-
     return elite + roulette_wheeling(non_elite + progeny, num_winers=pop_size - len(elite))
 
 
