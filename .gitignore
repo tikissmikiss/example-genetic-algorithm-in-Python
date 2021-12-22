@@ -1,2 +1,4 @@
 /.vscode
 /trabajo2.pdf
+/__pycache__
+.gitignore
