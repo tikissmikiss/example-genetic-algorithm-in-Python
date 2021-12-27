@@ -107,58 +107,6 @@ def ga(pop_size=_pop_size, elite_rate=_elite_rate, mutate_prob=_mutate_prob, max
 # Metodos propios
 ###############################################################################
 
-def print_generation(elite_rate, mutate_prob, the_fitest, generation, pop):
-    msg = ""
-    if _static_print:
-        msg += "\033[1;1f"
-    if _verbose: msg += _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop)
-    else: msg += _print_non_verbose(the_fitest, generation)
-    if not _static_print and _verbose and not _print_all: msg += _separator_line()
-    if _print_all: msg += _str_print_all(pop)
-    if not _static_print and _print_all: msg += _separator_line()
-    if _matrix: msg += _print_matrix(pop)
-    print(msg)
-
-
-def _str_print_all(pop):
-    lst = "\n\nListado ordenado de fitness de toda la población:\n\033[0;0m"
-    for i in range(len(pop)):
-        lst += str(f'\033[0;31m{pop[i][1]:4}\033[0;0m')
-        if (i+1) % 20 == 0: lst += "\n\033[0;0m"
-    return lst
-
-
-def _separator_line():
-    return "\n" + "-"*80 + "\n\033[0;0m"
-
-
-def _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop):
-    ret = "Version: \033[0K\033[5;33m" + str(_version)  + "\033[0;0m"
-    ret += "\nPassword length: \033[0K\033[5;33m" + str(get_password_len())  + "\033[0;0m"
-    ret += "\nPopulation Size: \033[0K\033[5;33m" + str(len(pop)) + "\033[0;0m"
-    ret += "\nElite Rate: \033[0K\033[5;33m" + str(elite_rate) + "\033[0;0m"
-    ret += "\nMutate Probability: \033[0K\033[5;33m" + str(mutate_prob) + "\033[0;0m"
-    ret += "\n\nGeneration: \033[0K\033[5;33m" + str(generation) + "\033[0;0m"
-    ret += "  best-fitness: \033[0K\033[5;33m" + str(the_fitest[1]) + "\033[0;0m"
-    ret += "\n  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
-    return ret
-
-
-def _print_non_verbose(the_fitest, generation):
-    ret = "\033[0;0mGeneration: " + "\033[0K\033[5;33m" + str(generation) + "\033[0;0m"
-    ret += "\033[0;0m  best-fitness: " + "\033[0K\033[5;33m" + str(the_fitest[1]) + "\033[0;0m"
-    ret += "  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
-    return ret
-
-
-def _print_matrix(pop):
-    ret = "\n"
-    for i in range(40):
-        ret += f"  \033[5;33m{i:3}\033[0;0m:\033[5;36m{pop[i][1]:4}\033[0;0m | \033[5;32m" \
-            + str(pop[i][0]) + "\n\033[0;0m"
-    return ret
-
-
 def roulette(players, num_winners=1):
     """ Return the winners of the roulette wheel selection """
     selection_mode = num_winners < len(players)/2 # True si es mejor seleccionar que eliminar
@@ -186,6 +134,58 @@ def inverse_gauss_form(a):
 def winner(value):
     """ Return the winner of the roulette wheel selection """
     return ceil( inverse_gauss_form(value) ) - 1
+
+
+###############################################################################
+# Metodos Impresion
+###############################################################################
+
+def print_generation(elite_rate, mutate_prob, the_fitest, generation, pop):
+    msg = ""
+    if _static_print:
+        msg += "\033[1;1f"
+    if _verbose: msg += _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop)
+    else: msg += _print_non_verbose(the_fitest, generation)
+    if not _static_print and _verbose and not _print_all: msg += _separator_line()
+    if _print_all: msg += _str_print_all(pop)
+    if not _static_print and _print_all: msg += _separator_line()
+    if _matrix: msg += _print_matrix(pop)
+    print(msg)
+
+def _str_print_all(pop):
+    lst = "\n\nListado ordenado de fitness de toda la población:\n\033[0;0m"
+    for i in range(len(pop)):
+        lst += str(f'\033[0;31m{pop[i][1]:4}\033[0;0m')
+        if (i+1) % 20 == 0: lst += "\n\033[0;0m"
+    return lst
+
+def _separator_line():
+    return "\n" + "-"*80 + "\n\033[0;0m"
+
+def _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop):
+    ret = "Version: \033[0K\033[5;33m" + str(_version)  + "\033[0;0m"
+    ret += "\nPassword length: \033[0K\033[5;33m" + str(get_password_len())  + "\033[0;0m"
+    ret += "\nPopulation Size: \033[0K\033[5;33m" + str(len(pop)) + "\033[0;0m"
+    ret += "\nElite Rate: \033[0K\033[5;33m" + str(elite_rate) + "\033[0;0m"
+    ret += "\nMutate Probability: \033[0K\033[5;33m" + str(mutate_prob) + "\033[0;0m"
+    ret += "\n\nGeneration: \033[0K\033[5;33m" + str(generation) + "\033[0;0m"
+    ret += "  best-fitness: \033[0K\033[5;33m" + str(the_fitest[1]) + "\033[0;0m"
+    ret += "\n  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
+    return ret
+
+def _print_non_verbose(the_fitest, generation):
+    ret = "\033[0;0mGeneration: " + "\033[0K\033[5;33m" + str(generation) + "\033[0;0m"
+    ret += "\033[0;0m  best-fitness: " + "\033[0K\033[5;33m" + str(the_fitest[1]) + "\033[0;0m"
+    ret += "  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
+    return ret
+
+def _print_matrix(pop):
+    ret = "\n"
+    for i in range(40):
+        ret += f"  \033[5;33m{i:3}\033[0;0m:\033[5;36m{pop[i][1]:4}\033[0;0m | \033[5;32m" \
+            + str(pop[i][0]) + "\n\033[0;0m"
+    return ret
+
 
 ###############################################################################
 # Selección de versión
