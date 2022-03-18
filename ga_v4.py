@@ -19,4 +19,5 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
 
 gpassword = ga(#pop_size=100, elite_rate=0.8, mutate_prob=0.2,
                fun_next_gen=next_generation)
-print("\nFin version 4")
+print(f"\033[5;33mVersion 4 finished\033[0;0m - \033[5;31mSolution: \033[5;32m"
+      + gpassword + "\033[0;0m")

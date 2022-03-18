@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from colorama import Cursor, init, Fore
 import os
 import sys
 import random
@@ -8,7 +7,7 @@ import re
 from math import ceil
 
 
-_password = "Open up. It's me! Who else?"
+_password = "Toc, toc, toc... Open up. It's me! Who if not?"
 
 ###############################################################################
 # Command line options
@@ -141,7 +140,7 @@ def print_generation(elite_rate, mutate_prob, the_fitest, generation, pop):
     if not _static_print and _verbose and not _print_all: msg += _separator_line()
     if _print_all: msg += _str_print_all(pop)
     if not _static_print and _print_all: msg += _separator_line()
-    if _matrix: msg += _print_matrix(pop)
+    if _matrix: msg += _print_bests_solutions(pop)
     print(msg)
 
     
@@ -176,7 +175,7 @@ def _print_non_verbose(the_fitest, generation):
     return ret
 
 
-def _print_matrix(pop):
+def _print_bests_solutions(pop):
     ret = "\n"
     for i in range(40):
         ret += f"  \033[5;33m{i:3}\033[0;0m:\033[5;36m{pop[i][1]:4}\033[0;0m | \033[5;32m" \
@@ -196,7 +195,7 @@ if os.path.split(__file__)[-1] == os.path.split(sys.argv[0])[-1]:
         print("\nRun the corresponding version file, or indicate the version you want to run.", 
               "Examples:",
               "> python3 ga_v1.py",
-              "> python3 ga.py --version=1\n", sep="\n")
+              "> python3 ga.py -vasm --version=1\n", sep="\n")
     exit(0)
 
 # print("fin ga.py")
