@@ -8,10 +8,10 @@ import re
 from math import ceil
 
 
-_password = "Abre. Soy yo! Quién va a ser si no?"
+_password = "Open up. It's me! Who else?"
 
 ###############################################################################
-# Opciones de ejecución
+# Command line options
 ###############################################################################
 _pop_size = 100
 _elite_rate = 0.2
@@ -42,9 +42,6 @@ for arg in sys.argv[1:]:
 if sum([1 for i in [_elite_rate, _mutate_prob, _pop_size, _max_generations] if i < 0]):
     sys.exit("Error: Invalid parameters")
 
-
-###############################################################################
-# Metodos aportados por el profesor (No se modifican)
 ###############################################################################
 
 def get_password_len():
@@ -61,9 +58,6 @@ def gene_set():
     """ Return the feasible characters of the password """
     return " 0123456789áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ!\"#$%&\'()*+,-./:;<=>¿?@[\\]^_`{|}"
 
-
-###############################################################################
-# Implementación metodos solicitados por el profesor
 ###############################################################################
 
 def initial_population(pop_size, chromosome_len):
@@ -104,13 +98,11 @@ def ga(pop_size=_pop_size, elite_rate=_elite_rate, mutate_prob=_mutate_prob, max
 
 
 ###############################################################################
-# Metodos propios
-###############################################################################
 
 def roulette(players, num_winners=1):
     """ Return the winners of the roulette wheel selection """
-    selection_mode = num_winners < len(players)/2 # True si es mejor seleccionar que eliminar
-    players = players.copy() # Evitar modificar la lista original
+    selection_mode = num_winners < len(players)/2 # True if it is preferable to select than delete.
+    players = players.copy() # Avoid modifying the original list
     players.sort(key=lambda x: x[1], reverse=selection_mode)
     winners = [] if selection_mode else players
     for _ in range(num_winners if selection_mode else len(players) - num_winners):
@@ -137,7 +129,7 @@ def winner(value):
 
 
 ###############################################################################
-# Metodos Impresion
+# Printing methods
 ###############################################################################
 
 def print_generation(elite_rate, mutate_prob, the_fitest, generation, pop):
@@ -152,15 +144,18 @@ def print_generation(elite_rate, mutate_prob, the_fitest, generation, pop):
     if _matrix: msg += _print_matrix(pop)
     print(msg)
 
+    
 def _str_print_all(pop):
-    lst = "\n\nListado ordenado de fitness de toda la población:\n\033[0;0m"
+    lst = "\n\nOrdered fitness list of the entire population:\n\033[0;0m"
     for i in range(len(pop)):
         lst += str(f'\033[0;31m{pop[i][1]:4}\033[0;0m')
         if (i+1) % 20 == 0: lst += "\n\033[0;0m"
     return lst
 
+
 def _separator_line():
     return "\n" + "-"*80 + "\n\033[0;0m"
+
 
 def _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop):
     ret = "Version: \033[0K\033[5;33m" + str(_version)  + "\033[0;0m"
@@ -173,11 +168,13 @@ def _print_verbose(elite_rate, mutate_prob, the_fitest, generation, pop):
     ret += "\n  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
     return ret
 
+
 def _print_non_verbose(the_fitest, generation):
     ret = "\033[0;0mGeneration: " + "\033[0K\033[5;33m" + str(generation) + "\033[0;0m"
     ret += "\033[0;0m  best-fitness: " + "\033[0K\033[5;33m" + str(the_fitest[1]) + "\033[0;0m"
     ret += "  \033[0K\033[5;32m" + str(the_fitest[0]) + "\033[0;0m"
     return ret
+
 
 def _print_matrix(pop):
     ret = "\n"
@@ -188,7 +185,7 @@ def _print_matrix(pop):
 
 
 ###############################################################################
-# Selección de versión
+# Version selection
 ###############################################################################
 
 if os.path.split(__file__)[-1] == os.path.split(sys.argv[0])[-1]:
@@ -196,8 +193,8 @@ if os.path.split(__file__)[-1] == os.path.split(sys.argv[0])[-1]:
         if _static_print: print("\033[2J\033[1;1f")
         exec(open('ga_v{}.py'.format(_version)).read())
     else:
-        print("\nEjecute el archivo correspondiente de la versión, o indique la versión que dese ejecutar.", 
-              "Ejemplos:",
+        print("\nRun the corresponding version file, or indicate the version you want to run.", 
+              "Examples:",
               "> python3 ga_v1.py",
               "> python3 ga.py --version=1\n", sep="\n")
     exit(0)
