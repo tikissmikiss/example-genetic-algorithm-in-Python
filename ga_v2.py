@@ -18,5 +18,6 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
 
 
 gpassword = ga(#pop_size=100, elite_rate=0.2, mutate_prob=0.8,
-               fun_next_gen=next_generation)
+               fun_next_gen=next_generation,
+                description="Cruce elitista puro y preservativo. Todos los elite sobreviven, cruce segun fitness, seleccion por ruleta entre no elites y descendencia",)
 print("\nFin version 2")

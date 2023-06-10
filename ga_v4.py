@@ -18,5 +18,6 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
 
 
 gpassword = ga(#pop_size=100, elite_rate=0.8, mutate_prob=0.2,
-               fun_next_gen=next_generation)
+               fun_next_gen=next_generation,
+                description="Esta versión es la mas se acerca al concepto biológico real",)
 print("\nFin version 4")

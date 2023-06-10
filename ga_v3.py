@@ -17,5 +17,6 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
 
 
 gpassword = ga(#pop_size=100, elite_rate=0.8, mutate_prob=0.2,
-               fun_next_gen=next_generation)
+               fun_next_gen=next_generation,
+                description="Procesa la elite y muta los cromosomas según el mutate_prob, los cromosomas que no mutan se cruzan con otro miembro de la elite elegido mediante la ruleta y generan un nuevo cromosoma",)
 print("\nFin version 3")

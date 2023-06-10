@@ -25,5 +25,6 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
     return nextgen + roulette(non_elite, pop_size - len(nextgen))
 
 
-gpassword = ga(fun_next_gen=next_generation)
+gpassword = ga(fun_next_gen=next_generation,
+                description="Genera descendencia por mutacion",)
 print("\nFin version 5")

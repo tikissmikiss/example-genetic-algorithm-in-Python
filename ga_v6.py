@@ -20,5 +20,6 @@ def next_generation(pop, pop_size, elite_rate, mutate_prob):
 
 
 gpassword = ga(  # pop_size=100, elite_rate=0.2, mutate_prob=0.8,
-                fun_next_gen=next_generation)
+                fun_next_gen=next_generation,
+                description="No elitista",)
 print("\nFin version 6")
