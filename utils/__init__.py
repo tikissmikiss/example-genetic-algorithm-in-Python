@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import annotations
 
 import argparse
 
-from algorithms import DEF_PASSWORD
+from algorithms import _DEF_PASSWORD
 
 
 def args() -> dict:
@@ -38,9 +40,9 @@ def args() -> dict:
                                          'sido seleccionado para mutar. Valor por defecto: 0.2')
     parser.add_argument('-d', '--delay', default=0, dest='delay', action='store', metavar='<int>', type=int,
                         help='Establece el tiempo de espera entre generaciones en milisegundos. Valor por defecto: 0')
-    parser.add_argument('-P', '--password', default=DEF_PASSWORD, dest='password', action='store', metavar='<str>',
+    parser.add_argument('-P', '--password', default=_DEF_PASSWORD, dest='password', action='store', metavar='<str>',
                         type=str, help=f'Establece la contraseña que se debe de encontrar mediante el algoritmo. '
-                                       f'Valor por defecto: {DEF_PASSWORD}')
+                                       f'Valor por defecto: {_DEF_PASSWORD}')
     group_v = parser.add_mutually_exclusive_group()
     group_v.add_argument('-v', '--verbose=true', dest='verbose', action='store_true', default=True,
                          help='Activa la salida detallada de información. Valor por defecto: Activo')

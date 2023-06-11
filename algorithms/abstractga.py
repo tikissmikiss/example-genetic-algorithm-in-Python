@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
+# Path: algorithms\abstractga.py
+#
 from __future__ import annotations
 
 import random
 import time
 from abc import ABC, abstractmethod
 
-# import numpy as np
-
-from algorithms import DEF_PASSWORD, GEN_SET
+from algorithms import _DEF_PASSWORD, _GEN_SET
 from utils import clear_screen, separator_line
 
 
@@ -45,7 +46,7 @@ class GeneticAlgorithm(ABC):
         self.print_fits = print_fits
         self.static_print = static_print
         self.delay = delay
-        self.password = password if password else DEF_PASSWORD
+        self.password = password if password else _DEF_PASSWORD
         self.pop_size = pop_size
         self.elite_rate = elite_rate
         self.mutate_prob = mutate_prob
@@ -54,14 +55,10 @@ class GeneticAlgorithm(ABC):
         if vars:
             self.__dict__.update(vars)
 
-    # def get_password_len(self):
-    #     """ Return the length of the current password, for simulation purposes """
-    #     return len(self.password)
-
     @property
     def gene_set(self):
         """ Return the feasible characters of the password """
-        return GEN_SET
+        return _GEN_SET
 
     @property
     def get_best_solution(self):
@@ -79,10 +76,6 @@ class GeneticAlgorithm(ABC):
         for i in range(self.pop_size):
             chromosome = ''.join(random.choice(self.gene_set) for _ in range(len(self.password)))
             population.append((chromosome, self.get_fitness(chromosome)))
-        # population = np.empty((self.pop_size, 2), dtype=object)
-        # for i in range(self.pop_size):
-        #     chromosome = ''.join(random.choice(self.gene_set) for _ in range(len(self.password)))
-        #     population[i] = (chromosome, self.get_fitness(chromosome))
         return population
 
     def get_fitness(self, guess) -> int:
@@ -120,17 +113,12 @@ class GeneticAlgorithm(ABC):
         for i in range(self.max_generations):
             # Sort the population by fitness
             self.pop.sort(key=lambda x: x[1])
-            # self.pop = self.pop[np.argsort(self.pop[:, 1].astype(int))]
             self.the_fittest = self.pop[0]
             self.generation = i + 1
             self.print_generation()
             if int(self.pop[0][1]) == 0:
                 return self.pop[0][0]
-            # self.pop = self.pop[:self.pop_size]
             self.pop = self.next_gen()
-            # print(len(self.pop))
-            # self.pop = self.pop[:self.pop_size]
-            # self.pop = np.array(next_gen[:self.pop_size], dtype=object)
             if self.delay:
                 time.sleep(self.delay / 1000)
         print("Password not found")
@@ -171,7 +159,6 @@ class GeneticAlgorithm(ABC):
     def _print_verbose(self):
         ret = "Version: \033[0K\033[5;33m" + str(self.version) + (
             f"\033[0;0m - \033[95m\033[1m\033[3m\033[4m{self.description}" if self.description else "") + "\033[0;0m"
-        # ret = "Version: \033[0K\033[5;33m" + str(_version)  + "\033[0;0m"
         ret += "\nPassword length: \033[0K\033[5;33m" + str(len(self.password)) + "\033[0;0m"
         ret += "\nPopulation Size: \033[0K\033[5;33m" + str(len(self.pop)) + "\033[0;0m"
         ret += "\nElite Rate: \033[0K\033[5;33m" + str(self.elite_rate) + "\033[0;0m"
