@@ -25,7 +25,6 @@ else:
 
 ga.run()
 
-print(f"{separator_line()}\nFin version {ga.version}\n")
+print(f"{separator_line()}\nEnd of version {ga.version}\n")
 ga.print_stats()
 print(f"{separator_line()}\n")
-

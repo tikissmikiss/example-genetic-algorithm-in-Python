@@ -6,17 +6,17 @@ import random
 from math import ceil
 
 ###############################################################################
-# Declaración de constantes
+# Declaration of constants
 ###############################################################################
 
-_DEF_PASSWORD = "Algoritmos evolutivos - {Computación Bioinspirada} <[by José Herce]>"
+_DEF_PASSWORD = "Evolutionary Algorithms - {Bioinspired Computing} <[by José Herce]>"
 
 _GEN_SET = " 0123456789áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ!\"#$%&\'()*+,-./:;<=>¿?@[" \
           "\\]^_`{|}"
 
 
 ###############################################################################
-# Métodos propios
+# Custom methods
 ###############################################################################
 
 
@@ -27,16 +27,16 @@ def _winner(value):
 
 def roulette(players: list, num_winners=1) -> list:
     """ Return the winners of the roulette wheel selection """
-    selection_mode = num_winners < len(players) / 2  # True si es mejor seleccionar que eliminar
+    selection_mode = num_winners < len(players) / 2  # True if it's better to select than eliminate
     ordered_players = sorted(players, key=lambda x: x[1], reverse=selection_mode)
     winners = [] if selection_mode else ordered_players
     for _ in range(num_winners if selection_mode else len(players) - num_winners):
         domain = _gauss_form(len(ordered_players))
-        tirada = random.randint(1, domain)
+        spin = random.randint(1, domain)
         if selection_mode:
-            winners.append(ordered_players.pop(_winner(tirada)))
+            winners.append(ordered_players.pop(_winner(spin)))
         else:
-            winners.pop(_winner(tirada))
+            winners.pop(_winner(spin))
     return winners
 
 
@@ -48,4 +48,3 @@ def _gauss_form(n):
 def _inverse_gauss_form(a):
     """ Return the inverse function of the gauss_sum """
     return ((8 * a + 1) ** 0.5 - 1) / 2
-

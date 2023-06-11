@@ -33,7 +33,7 @@ class GeneticAlgorithm(ABC):
             password: str = None, verbose: bool = True, print_solutions: bool = True, print_fits: bool = True,
             static_print: bool = True, vars: dict = None
     ):
-        self.description: str = "Algoritmo genético"
+        self.description: str = "Genetic Algorithm"
         self.version: int = 0
         self.the_fittest: tuple | None = None
         self.generation: int = 0
@@ -71,7 +71,7 @@ class GeneticAlgorithm(ABC):
         pass
 
     def initial_population(self):
-        """ Create a initial population """
+        """ Create an initial population """
         population = list()
         for i in range(self.pop_size):
             chromosome = ''.join(random.choice(self.gene_set) for _ in range(len(self.password)))
@@ -79,24 +79,24 @@ class GeneticAlgorithm(ABC):
         return population
 
     def get_fitness(self, guess) -> int:
-        """ Return the number of character's in guess string mismatching the same position of the password """
+        """ Return the number of characters in the guess string that mismatch the same position of the password """
         return sum(1 for expected, actual in zip(self.password, guess) if expected != actual)
 
-    def mutate_old(self, chromosome) -> tuple:  # Antigua version solo mutaba un cromosoma
+    def mutate_old(self, chromosome) -> tuple:  # Previous version only mutated one chromosome
         """ Mutate randomly one gene of the chromosome, which is a string with the characters of the password """
         pos = random.randint(0, len(self.password) - 1)
         chain = chromosome[0][:pos] + random.choice(self.gene_set) + chromosome[0][pos + 1:]
         fitness = self.get_fitness(chain)
         return chain, fitness
 
-    def mutate(self, chrom: tuple) -> tuple:  # Todos los cromosomas tienen probabilidad de mutar
-        """ Procese the string of the chromosome, and mutate the characters with a probability """
+    def mutate(self, chrom: tuple) -> tuple:  # All chromosomes have a probability of mutating
+        """ Process the string of the chromosome and mutate the characters with a probability """
         chain = ''.join(random.choice(self.gene_set) if random.random() < self.mutate_prob else g for g in chrom[0])
         fitness = self.get_fitness(chain)
         return chain, fitness
 
     def crossover(self, chromosome1, chromosome2) -> tuple:
-        """ Perform a one point crossover of the chromosomes """
+        """ Perform a one-point crossover of the chromosomes """
         if random.random() < 0.5:
             chromosome1, chromosome2 = chromosome2, chromosome1
         split = random.randint(0, len(self.password) - 1)
@@ -125,7 +125,7 @@ class GeneticAlgorithm(ABC):
         return False
 
     ###############################################################################
-    # Metodos Impresion
+    # Printing Methods
     ###############################################################################
 
     def print_stats(self):
@@ -144,7 +144,8 @@ class GeneticAlgorithm(ABC):
             msg += separator_line()
         if self.print_fits:
             msg += self._str_print_all()
-        if not self.static_print and self.print_fits: msg += separator_line()
+        if not self.static_print and self.print_fits:
+            msg += separator_line()
         if self.print_solutions:
             msg += self._print_matrix(self.pop)
         print(msg)
@@ -153,7 +154,8 @@ class GeneticAlgorithm(ABC):
         lst = "\n\nOrdered fitness list of the entire population:\n\033[0;0m"
         for i in range(min(self.fits_size, len(self.pop))):
             lst += str(f'\033[0;31m{self.pop[i][1]:4}\033[0;0m')
-            if (i + 1) % 20 == 0: lst += "\n\033[0;0m"
+            if (i + 1) % 20 == 0:
+                lst += "\n\033[0;0m"
         return lst
 
     def _print_verbose(self):

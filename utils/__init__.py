@@ -10,65 +10,62 @@ from algorithms import _DEF_PASSWORD
 def args() -> dict:
     parser = argparse.ArgumentParser(
         prog='\n\tpython ga.py',
-        description='ga.py es una aproximación didáctica de un algoritmo genético. Desarrollado por José Herce para la '
-                    'asignatura de Computación Bioinspirada del grado de ingeniería informática de UNIR. Este '
-                    'algoritmo busca una cadena de caracteres que coincida con la contraseña dada. La función de '
-                    'fitness es el número de caracteres que no coinciden con la contraseña. Los caracteres válidos '
-                    'son las letras mayúsculas, las letras minúsculas, los números y los símbolos de puntuación. '
-                    'Todos los parámetros pueden ser modificados por línea de comandos, tal como se indica en la '
-                    'ayuda. Si no se especifica un parámetro, se utilizará el valor por defecto.',
-        epilog='Aproximación didáctica de un algoritmo genético. Desarrollado por José Herce para la '
-               'asignatura de Computación Bioinspirada del grado de ingeniería informática de UNIR.')
-    # Agregar argumentos
+        description='ga.py is a didactic approximation of a genetic algorithm. Developed by José Herce for the '
+                    'Computational Bioinspiration subject of the computer engineering degree at UNIR. This algorithm '
+                    'searches for a string that matches the given password. The fitness function is the number of '
+                    'characters that do not match the password. Valid characters are uppercase letters, lowercase '
+                    'letters, numbers, and punctuation symbols. All parameters can be modified via command line, as '
+                    'indicated in the help. If a parameter is not specified, the default value will be used.',
+        epilog='Didactic approximation of a genetic algorithm. Developed by José Herce for the Computational '
+               'Bioinspiration subject of the computer engineering degree at UNIR.')
+    # Add arguments
     parser.add_argument('version', choices=['1', '2', '3', '4', '5', '6'], metavar='version',
-                        help='Variante del algoritmo que se desea ejecutar. Afecta al como se genera la generación '
-                             'siguiente. Valores posibles: 1, 2, 3, 4, 5, 6.')
+                        help='Variant of the algorithm to be executed. It affects how the next generation is '
+                             'generated. Possible values: 1, 2, 3, 4, 5, 6.')
     parser.add_argument('-g', '--max-generations', default=50000, dest='max_generations', action='store',
-                        metavar='<int>', type=int, help='Establece el número máximo de generaciones. Valor por '
-                                                        'defecto: 50000')
+                        metavar='<int>', type=int, help='Set the maximum number of generations. Default value: 50000')
     parser.add_argument('-p', '--population', default=100, dest='pop_size', action='store', metavar='<int>', type=int,
-                        help='Establece el tamaño de la población. Si el es impar, se establece al valor par '
-                             'inmediatamente superior. Valor por defecto: 100')
+                        help='Set the population size. If it is odd, it is set to the next higher even value. '
+                             'Default value: 100')
     parser.add_argument('-e', '--elite-rate', default=0.2, dest='elite_rate', action='store', metavar='<float>',
-                        type=float, help='Establece el porcentaje de la población que se considera élite, la cual '
-                                         'esta formada por los mejores individuos. Valor por defecto: 0.3')
+                        type=float, help='Set the percentage of the population considered elite, composed of the best '
+                                         'individuals. Default value: 0.3')
     parser.add_argument('-mR', '--mutate-rate', default=0.1, dest='mutate_rate', action='store', metavar='<float>',
-                        type=float, help='Establece la probabilidad de que un individuo sea seleccionado para mutar. '
-                                         'Valor por defecto: 0.1')
+                        type=float, help='Set the probability that an individual is selected for mutation. Default '
+                                         'value: 0.1')
     parser.add_argument('-mP', '--mutate-prob', default=0.2, dest='mutate_prob', action='store', metavar='<float>',
-                        type=float, help='Establece la probabilidad de mutación de cada gen de un individuo que ha '
-                                         'sido seleccionado para mutar. Valor por defecto: 0.2')
+                        type=float, help='Set the mutation probability of each gene of an individual that has been '
+                                         'selected for mutation. Default value: 0.2')
     parser.add_argument('-d', '--delay', default=0, dest='delay', action='store', metavar='<int>', type=int,
-                        help='Establece el tiempo de espera entre generaciones en milisegundos. Valor por defecto: 0')
+                        help='Set the delay between generations in milliseconds. Default value: 0')
     parser.add_argument('-P', '--password', default=_DEF_PASSWORD, dest='password', action='store', metavar='<str>',
-                        type=str, help=f'Establece la contraseña que se debe de encontrar mediante el algoritmo. '
-                                       f'Valor por defecto: {_DEF_PASSWORD}')
+                        type=str, help=f'Set the password to be found by the algorithm. Default value: {_DEF_PASSWORD}')
     group_v = parser.add_mutually_exclusive_group()
     group_v.add_argument('-v', '--verbose=true', dest='verbose', action='store_true', default=True,
-                         help='Activa la salida detallada de información. Valor por defecto: Activo')
+                         help='Activate detailed information output. Default value: Active')
     group_v.add_argument('-V', '--verbose=false', dest='verbose', action='store_false', default=True,
-                         help='Desactiva la salida detallada de información. Valor por defecto: Activo')
+                         help='Deactivate detailed information output. Default value: Active')
     group_a = parser.add_mutually_exclusive_group()
     group_a.add_argument('-f', '--fitness=true', dest='print_fits', action='store_true', default=True,
-                         help='Activa la impresión de todos los fitness. Valor por defecto: Activo')
+                         help='Activate printing of all fitness values. Default value: Active')
     group_a.add_argument('-F', '--fitness=false', dest='print_fits', action='store_false', default=True,
-                         help='Desactiva la impresión de todos los fitness. Valor por defecto: Activo')
+                         help='Deactivate printing of all fitness values. Default value: Active')
     group_s = parser.add_mutually_exclusive_group()
     group_s.add_argument('-s', '--static=true', dest='static_print', action='store_true', default=True,
-                         help='Activa la impresión estática de la salida. Valor por defecto: Activo')
+                         help='Activate static output printing. Default value: Active')
     group_s.add_argument('-S', '--static=false', dest='static_print', action='store_false', default=True,
-                         help='Desactiva la impresión estática de la salida. Valor por defecto: Activo')
+                         help='Deactivate static output printing. Default value: Active')
     group_m = parser.add_mutually_exclusive_group()
     group_m.add_argument('-b', '--bests=true', dest='print_solutions', action='store_true', default=True,
-                         help='Activa la impresión de las, hasta 40, mejores soluciones. Valor por defecto: Activo')
+                         help='Activate printing of the best solutions, up to 40. Default value: Active')
     group_m.add_argument('-B', '--bests=false', dest='print_solutions', action='store_false', default=True,
-                         help='Desactiva la impresión de las, hasta 40, mejores soluciones. Valor por defecto: Activo')
+                         help='Deactivate printing of the best solutions, up to 40. Default value: Active')
     parser.add_argument('-Fs', '--fits-size', default=40, dest='fits_size', action='store', metavar='<int>', type=int,
-                        help='Establece el número de fitness que se imprimen. Valor por defecto: 40')
+                        help='Set the number of fitness values to print. Default value: 40')
     parser.add_argument('-Ss', '--solutions-size', default=40, dest='solutions_size', action='store', metavar='<int>',
-                        type=int, help='Establece el número de soluciones que se imprimen. Valor por defecto: 40')
+                        type=int, help='Set the number of solutions to print. Default value: 40')
     parse_args = parser.parse_args()
-    # Validar y limitar los valores de los parámetros
+    # Validate and limit parameter values
     parse_args.pop_size = max(2, parse_args.pop_size)
     parse_args.elite_rate = max(0, min(1, parse_args.elite_rate))
     parse_args.mutate_rate = max(0, min(1, parse_args.mutate_rate))

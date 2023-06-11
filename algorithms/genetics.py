@@ -1,6 +1,6 @@
-# # -*- coding: utf-8 -*-
-# # Path: algorithms\abstractga.py
-#
+# -*- coding: utf-8 -*-
+# Path: algorithms\abstractga.py
+
 import random
 
 from algorithms import roulette
@@ -15,16 +15,16 @@ class GeneticAlgorithmV1(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Cruce elitista puro y extintivo. Todos los elite sobreviven y el resto muere"
+        self.description = "Pure and extinguishing elitist crossover. All elites survive, and the rest die"
         self.version = 1
 
     def next_gen(self):
         """ Return the next generation """
-        self.pop = self.pop[:max(2, int(self.pop_size * self.elite_rate))]  # Selecciona la elite, mínimo 2
-        while len(self.pop) < self.pop_size:  # Cruzar elite hasta completar la población
+        self.pop = self.pop[:max(2, int(self.pop_size * self.elite_rate))]  # Select the elite, minimum 2
+        while len(self.pop) < self.pop_size:  # Cross the elite to complete the population
             couple = roulette(self.pop, 2)
             self.pop.append(self.crossover(couple[0], couple[1]))
-        # Mutar la población según la probabilidad de mutate_prob
+        # Mutate the population according to the mutate_prob probability
         self.pop = [self.mutate(self.pop[i]) if random.random() < self.mutate_rate else self.pop[i] for i in range(len(self.pop))]
         return self.pop
 
@@ -36,19 +36,19 @@ class GeneticAlgorithmV2(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Cruce elitista puro y preservativo. Todos los elite sobreviven, cruce segun fitness, " \
-                           "seleccion por ruleta entre no elites y descendencia"
+        self.description = "Pure and preservative elitist crossover. All elites survive, crossover according to " \
+                           "fitness, selection by roulette among non-elites and offspring"
         self.version = 2
 
     def next_gen(self):
         """ Return the next generation """
-        split = min(self.pop_size - 2, int(self.pop_size * self.elite_rate))  # Selecciona la elite (maximo pop_size-2)
+        split = min(self.pop_size - 2, int(self.pop_size * self.elite_rate))  # Select the elite (maximum pop_size-2)
         elite, non_elite = self.pop[:split], self.pop[split:]
-        # Mutar entre los no elite
+        # Mutate among non-elite individuals
         for i in range(len(elite)):
             if random.random() < self.mutate_rate:
                 elite[i] = self.mutate(elite[i])
-        # Cruzar para generar descendencia. Se cruza por parejas en orden para cruzar individuos de similar fitness
+        # Cross to generate offspring. Cross pairs in order to cross individuals with similar fitness
         progeny = [self.crossover(self.pop[i], self.pop[i + 1]) for i in range(0, self.pop_size, 2)]
         return elite + roulette(non_elite + progeny, num_winners=self.pop_size - len(elite))
 
@@ -60,15 +60,15 @@ class GeneticAlgorithmV3(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Procesa la elite y muta los cromosomas según el mutate_prob, los cromosomas que no mutan " \
-                           "se cruzan con otro miembro de la elite elegido mediante la ruleta y generan un nuevo " \
-                           "cromosoma"
+        self.description = "Processes the elite and mutates chromosomes according to the mutate_prob. Chromosomes " \
+                           "that do not mutate are crossed with another elite member chosen by roulette and generate " \
+                           "a new chromosome"
         self.version = 3
 
     def next_gen(self):
         """ Return the next generation """
-        split = min(self.pop_size - 2, int(self.pop_size * self.elite_rate))  # (maximo pop_size-2)
-        elite, non_elite = self.pop[:split], self.pop[split:]  # Selecciona la elite
+        split = min(self.pop_size - 2, int(self.pop_size * self.elite_rate))  # (maximum pop_size-2)
+        elite, non_elite = self.pop[:split], self.pop[split:]  # Select the elite
         progeny = []
         for i in range(len(elite)):
             if random.random() < self.mutate_rate:
@@ -85,7 +85,7 @@ class GeneticAlgorithmV4(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Esta versión es la mas se acerca al concepto biológico real"
+        self.description = "This version is the closest to the real biological concept"
         self.version = 4
 
     def next_gen(self):
@@ -106,13 +106,13 @@ class GeneticAlgorithmV5(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Genera descendencia por mutación"
+        self.description = "Generates offspring through mutation"
         self.version = 5
 
     def next_gen(self):
         """ Return the next generation """
         split = int(self.pop_size * self.elite_rate)
-        elite, non_elite = self.pop[:split], self.pop[split:]  # Selecciona la elite
+        elite, non_elite = self.pop[:split], self.pop[split:]  # Select the elite
         nextgen = elite.copy()
         to_cross = []
         while len(elite) > 0:
@@ -122,7 +122,7 @@ class GeneticAlgorithmV5(GeneticAlgorithm):
             else:
                 to_cross.append(i)
             elite.remove(i)
-        if len(to_cross) % 2 == 1:  # Si hay un número impar de cromosomas para cruzar, se añade otro
+        if len(to_cross) % 2 == 1:  # If there is an odd number of chromosomes to cross, add another one
             to_cross.append(roulette(non_elite)[0])
         while len(to_cross) > 0:
             parent1, parent2 = roulette(to_cross, 2)
@@ -139,7 +139,7 @@ class GeneticAlgorithmV6(GeneticAlgorithm):
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        self.description = "Preservativo, no elitista puro"
+        self.description = "Preservative, pure non-elite"
         self.version = 6
 
     def next_gen(self):
@@ -154,4 +154,3 @@ class GeneticAlgorithmV6(GeneticAlgorithm):
             child = self.crossover(parent1, parent2)
             nextgen.append(self.mutate(child) if random.random() < self.mutate_rate else child)
         return nextgen + roulette(non_elite, self.pop_size - len(nextgen))
-
