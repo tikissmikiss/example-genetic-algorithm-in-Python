@@ -82,9 +82,7 @@ python ga.py <versión> [-g MAX_GENERATIONS] [-p POPULATION_SIZE] [-e ELITE_RATE
    - `-P PASSWORD`: Establece la contraseña objetivo que el algoritmo debe encontrar (valor por defecto: especificada en el código).
    - `-v` o `--verbose=true`: Activa la salida detallada de información (valor por defecto: activada).
    - `-V` o `--verbose=false`: Desactiva la salida detallada de información (valor por defecto: activada).
-   - `-f` o `--fitness=true
-
-`: Habilita la impresión de todos los valores de aptitud (valor por defecto: habilitada).
+   - `-f` o `--fitness=true`: Habilita la impresión de todos los valores de aptitud (valor por defecto: habilitada).
    - `-F` o `--fitness=false`: Deshabilita la impresión de todos los valores de aptitud (valor por defecto: habilitada).
    - `-s` o `--static=true`: Habilita la impresión estática de salida (valor por defecto: habilitada).
    - `-S` o `--static=false`: Deshabilita la impresión estática de salida (valor por defecto: habilitada).
