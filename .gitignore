@@ -1,4 +1,9 @@
-/.vscode
-/trabajo2.pdf
-/__pycache__
-.gitignore
+/.idea/
+/.vscode/
+/__pycache__/
+__pycache__/ga.cpython-39.pyc
+algorithms/__pycache__/__init__.cpython-39.pyc
+
+algorithms/__pycache__/abstractga.cpython-39.pyc
+utils/__pycache__/__init__.cpython-39.pyc
+__pycache__/ga.cpython-39.pyc
