@@ -10,6 +10,9 @@ Please note that this implementation is intended for educational purposes and ma
 
 The genetic algorithm (GA) is an optimization technique based on biological evolution. In this project, the GA seeks to find a target password from an initial population of randomly generated individuals. Each individual represents a string of characters and evolves over generations to get closer to the target password. The fitness of an individual is determined by the number of characters that match the target password. The GA generates new generations by selecting the fittest individuals, applying genetic operators such as recombination and mutation, and evaluating their fitness until the target password is found or the maximum number of generations is reached.
 
+<img alt="ejecution" src="resources/algoritmo genetico.gif"/>
+
+
 #### Usage
 
 2. Run the `ga.py` script with the desired arguments:
