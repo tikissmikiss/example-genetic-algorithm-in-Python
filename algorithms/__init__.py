@@ -9,7 +9,7 @@ from math import ceil
 # Declaration of constants
 ###############################################################################
 
-_DEF_PASSWORD = "MUIA : Genetic Algorithms - {Evolutionary Computation} <[by José Herce]>"
+_DEF_PASSWORD = "MUIA : Genetic Algorithms - {Evolutionary Computation} <[by Group 1]>"
 
 _GEN_SET = " 0123456789áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ!\"#$%&\'()*+,-./:;<=>¿?@[" \
           "\\]^_`{|}"
