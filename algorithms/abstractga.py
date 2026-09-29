@@ -82,18 +82,19 @@ class GeneticAlgorithm(ABC):
         """ Return the number of characters in the guess string that mismatch the same position of the password """
         return sum(1 for expected, actual in zip(self.password, guess) if expected != actual)
 
-    def mutate_old(self, chromosome) -> tuple:  # Previous version only mutated one chromosome
-        """ Mutate randomly one gene of the chromosome, which is a string with the characters of the password """
-        pos = random.randint(0, len(self.password) - 1)
-        chain = chromosome[0][:pos] + random.choice(self.gene_set) + chromosome[0][pos + 1:]
-        fitness = self.get_fitness(chain)
-        return chain, fitness
-
-    def mutate(self, chrom: tuple) -> tuple:  # All chromosomes have a probability of mutating
+    def mutate(self, chrom: tuple) -> tuple:  # All genes have a probability of mutating
         """ Process the string of the chromosome and mutate the characters with a probability """
         chain = ''.join(random.choice(self.gene_set) if random.random() < self.mutate_prob else g for g in chrom[0])
         fitness = self.get_fitness(chain)
         return chain, fitness
+
+    def mutate_one_gene(self, chromosome) -> tuple:
+        """Replace one randomly selected gene with a different feasible allele."""
+        pos = random.randint(0, len(self.password) - 1)
+        old_gene = chromosome[0][pos]
+        new_gene = random.choice(self.gene_set.replace(old_gene, ""))
+        chain = chromosome[0][:pos] + new_gene + chromosome[0][pos + 1:]
+        return chain, self.get_fitness(chain)
 
     def crossover(self, chromosome1, chromosome2) -> tuple:
         """ Perform a one-point crossover of the chromosomes """
@@ -102,6 +103,16 @@ class GeneticAlgorithm(ABC):
         split = random.randint(0, len(self.password) - 1)
         hybrid = chromosome1[0][:split] + chromosome2[0][split:]
         return hybrid, self.get_fitness(hybrid)
+
+    def crossover_pair(self, chromosome1, chromosome2) -> tuple:
+        """Create two children with a non-degenerate one-point crossover."""
+        if len(self.password) < 2:
+            return chromosome1, chromosome2
+        split = random.randint(1, len(self.password) - 1)
+        child1 = chromosome1[0][:split] + chromosome2[0][split:]
+        child2 = chromosome2[0][:split] + chromosome1[0][split:]
+        return ((child1, self.get_fitness(child1)),
+                (child2, self.get_fitness(child2)))
 
     def run(self):
         """ Genetic Algorithm driving the search of the password """

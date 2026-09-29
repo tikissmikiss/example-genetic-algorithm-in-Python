@@ -3,7 +3,7 @@
 
 import random
 
-from algorithms import roulette
+from algorithms import roulette, stochastic_universal_sampling, tournament
 from algorithms.abstractga import GeneticAlgorithm
 
 
@@ -154,3 +154,48 @@ class GeneticAlgorithmV6(GeneticAlgorithm):
             child = self.crossover(parent1, parent2)
             nextgen.append(self.mutate(child) if random.random() < self.mutate_rate else child)
         return nextgen + roulette(non_elite, self.pop_size - len(nextgen))
+
+
+class GeneticAlgorithmV7(GeneticAlgorithm):
+    """Generational GA using the operators presented in the course slides."""
+
+    def __init__(self, pop_size: int = 100, elite_rate: float = 0.2, mutate_prob: float = 0.1, mutate_rate: float = 0.05,
+                 max_generations: int = 10000, solutions_size: int = 10, fits_size: int = 10, delay: int = 0,
+                 password: str = None, verbose: bool = True, print_solutions: bool = True, print_fits: bool = True,
+                 static_print: bool = True, vars: dict = None):
+        super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
+                         delay, password, verbose, print_solutions, print_fits, static_print, vars)
+        # The slides recommend Pm in [1%, 5%]. This version applies it once per child.
+        self.mutate_rate = min(self.mutate_rate, 0.05)
+        self.elite_rate = 0.0
+        self.description = "Stochastic universal selection, one-point crossover, and one-gene mutation"
+        self.version = 7
+
+    def next_gen(self):
+        """Select, cross, mutate descendants, and replace the whole population."""
+        parents = stochastic_universal_sampling(self.pop, self.pop_size)
+        nextgen = []
+        for i in range(0, self.pop_size, 2):
+            child1, child2 = self.crossover_pair(parents[i], parents[i + 1])
+            for child in (child1, child2):
+                nextgen.append(self.mutate_one_gene(child) if random.random() < self.mutate_rate else child)
+        return nextgen
+
+
+class GeneticAlgorithmV8(GeneticAlgorithmV7):
+    """Generational GA with tournament selection of three participants."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.description = "Tournament selection (k=3), one-point crossover, and one-gene mutation"
+        self.version = 8
+
+    def next_gen(self):
+        """Select with tournaments, cross, mutate descendants, and replace."""
+        parents = tournament(self.pop, self.pop_size, tournament_size=3)
+        nextgen = []
+        for i in range(0, self.pop_size, 2):
+            child1, child2 = self.crossover_pair(parents[i], parents[i + 1])
+            for child in (child1, child2):
+                nextgen.append(self.mutate_one_gene(child) if random.random() < self.mutate_rate else child)
+        return nextgen

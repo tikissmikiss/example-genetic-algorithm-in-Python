@@ -3,7 +3,7 @@
 
 
 from algorithms.genetics import GeneticAlgorithmV3, GeneticAlgorithmV1, GeneticAlgorithmV2, GeneticAlgorithmV4, \
-    GeneticAlgorithmV5, GeneticAlgorithmV6
+    GeneticAlgorithmV5, GeneticAlgorithmV6, GeneticAlgorithmV7, GeneticAlgorithmV8
 from utils import args, separator_line
 
 args = args()
@@ -20,6 +20,10 @@ elif int(args['version']) == 5:
     ga = GeneticAlgorithmV5(vars=args)
 elif int(args['version']) == 6:
     ga = GeneticAlgorithmV6(vars=args)
+elif int(args['version']) == 7:
+    ga = GeneticAlgorithmV7(vars=args)
+elif int(args['version']) == 8:
+    ga = GeneticAlgorithmV8(vars=args)
 else:
     raise Exception("Error: Invalid version")
 
