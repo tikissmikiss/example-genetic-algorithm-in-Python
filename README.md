@@ -23,7 +23,8 @@ python ga.py <version> [-g MAX_GENERATIONS] [-p POPULATION_SIZE] [-e ELITE_RATE]
                      [-v | -V] [-f | -F] [-s | -S] [-b | -B] [-Fs FITS_SIZE] [-Ss SOLUTIONS_SIZE]
 ```
 
-   - `<version>`: Select the version of the algorithm you want to run. Options: 1, 2, 3, 4, 5, 6.
+   - `<version>`: Select the version of the algorithm you want to run. Options: 1, 2, 3, 4, 5, 6, 7, 8. Version 7 uses stochastic universal (roulette) selection, one-point crossover, and one-gene mutation. Version 8 uses tournament selection with k=3.
+     It uses complete generational replacement and no elitism. Its mutation probability is `-mR` (limited to 5%); `-mP` is not used by this version.
 
    Optional arguments:
 
@@ -72,7 +73,8 @@ python ga.py <versión> [-g MAX_GENERATIONS] [-p POPULATION_SIZE] [-e ELITE_RATE
                      [-v | -V] [-f | -F] [-s | -S] [-b | -B] [-Fs FITS_SIZE] [-Ss SOLUTIONS_SIZE]
 ```
 
-   - `<versión>`: Selecciona la versión del algoritmo que deseas ejecutar. Opciones: 1, 2, 3, 4, 5, 6.
+   - `<versión>`: Selecciona la versión del algoritmo que deseas ejecutar. Opciones: 1, 2, 3, 4, 5, 6, 7, 8. La versión 7 usa selección universal estocástica (ruleta), cruce de un punto y mutación de un gen. La versión 8 usa selección por torneo con k=3.
+     Emplea reemplazo generacional completo y no elitismo. Su probabilidad de mutación es `-mR` (limitada al 5%); esta versión no utiliza `-mP`.
 
    Argumentos opcionales:
 

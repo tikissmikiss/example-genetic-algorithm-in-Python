@@ -19,9 +19,9 @@ def args() -> dict:
         epilog='Didactic approximation of a genetic algorithm. Developed by José Herce for the Computational '
                'Bioinspiration subject of the computer engineering degree at UNIR.')
     # Add arguments
-    parser.add_argument('version', choices=['1', '2', '3', '4', '5', '6'], metavar='version',
+    parser.add_argument('version', choices=['1', '2', '3', '4', '5', '6', '7', '8'], metavar='version',
                         help='Variant of the algorithm to be executed. It affects how the next generation is '
-                             'generated. Possible values: 1, 2, 3, 4, 5, 6.')
+                             'generated. Possible values: 1, 2, 3, 4, 5, 6, 7, 8.')
     parser.add_argument('-g', '--max-generations', default=50000, dest='max_generations', action='store',
                         metavar='<int>', type=int, help='Set the maximum number of generations. Default value: 50000')
     parser.add_argument('-p', '--population', default=100, dest='pop_size', action='store', metavar='<int>', type=int,
