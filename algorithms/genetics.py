@@ -159,14 +159,12 @@ class GeneticAlgorithmV6(GeneticAlgorithm):
 class GeneticAlgorithmV7(GeneticAlgorithm):
     """Generational GA using the operators presented in the course slides."""
 
-    def __init__(self, pop_size: int = 100, elite_rate: float = 0.2, mutate_prob: float = 0.1, mutate_rate: float = 0.05,
+    def __init__(self, pop_size: int = 100, elite_rate: float = 0.2, mutate_prob: float = 0.0, mutate_rate: float = 0.05,
                  max_generations: int = 10000, solutions_size: int = 10, fits_size: int = 10, delay: int = 0,
                  password: str = None, verbose: bool = True, print_solutions: bool = True, print_fits: bool = True,
                  static_print: bool = True, vars: dict = None):
         super().__init__(pop_size, elite_rate, mutate_prob, mutate_rate, max_generations, solutions_size, fits_size,
                          delay, password, verbose, print_solutions, print_fits, static_print, vars)
-        # The slides recommend Pm in [1%, 5%]. This version applies it once per child.
-        self.mutate_rate = min(self.mutate_rate, 0.05)
         self.elite_rate = 0.0
         self.description = "Stochastic universal selection, one-point crossover, and one-gene mutation"
         self.version = 7
